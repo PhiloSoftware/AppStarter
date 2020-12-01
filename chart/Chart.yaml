@@ -1,0 +1,9 @@
+apiVersion: v1
+appVersion: "1.0"
+description: A Helm chart for deploying the Application
+name: app-starter
+version: 0.0.0
+icon: https://www.philo.co.nz/favicon.ico
+maintainers:
+  - name: Morgan Philo
+    email: morgan@philo.co.nz

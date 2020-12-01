@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Release.Name }}-web-ingress
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.web.url }}`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-web-svc
+          port: 80
+      middlewares:
+        - name: {{ .Release.Name }}-web-redirectwww
+    - match: Host(`www.{{ .Values.web.url }}`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-web-svc
+          port: 80
+      middlewares:
+        - name: {{ .Release.Name }}-web-securityheaders
+{{ if (eq .Values.traefik.httpsredirect true) }}
+        - name: {{ .Release.Name }}-web-redirectscheme
+{{ end }}

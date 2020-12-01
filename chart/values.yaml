@@ -1,0 +1,12 @@
+site_environment: production
+app_name: StarterApp
+web:
+    url: yoursite.com
+imageCredentials:
+  secretName: docker-registry
+  registry: unkown
+  username: someone
+  password: sillyness
+  email: someone@host.com
+traefik:
+  httpsredirect: false

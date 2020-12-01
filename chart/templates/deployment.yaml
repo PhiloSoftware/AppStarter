@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web-deployment
+  labels:
+    app: {{ .Values.app_name }}
+    tier: web
+    environment: {{ .Values.site_environment }}
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxUnavailable: 25%
+       maxSurge: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.app_name }}
+      tier: web
+      environment: {{ .Values.site_environment }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app_name }}
+        tier: web
+        environment: {{ .Values.site_environment }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-web
+          image: ghcr.io/philosoftware/appstarter/web:{{ $.Chart.Version }}
+          env:
+            - name: "ENVIRONMENT"
+              value: {{ .Values.site_environment }}
+            - name: "VUE_APP_VERSION"
+              value: {{ $.Chart.Version }}
+          ports:
+          - containerPort: 80      
+      imagePullSecrets:
+        - name: {{ .Values.imageCredentials.secretName }}
