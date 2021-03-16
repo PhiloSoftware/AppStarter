@@ -28,6 +28,4 @@ spec:
           port: 80
       middlewares:
         - name: {{ .Release.Name }}-web-securityheaders
-{{ if (eq .Values.traefik.httpsredirect true) }}
         - name: {{ .Release.Name }}-web-redirectscheme
-{{ end }}

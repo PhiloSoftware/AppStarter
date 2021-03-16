@@ -5,10 +5,6 @@ A starter project for Automated build and deploy via Octopus Deploy.
 This deployment requires Traefik at the front of your cluster to proxy requests.    
 An Octopus Deploy Server and the secrets OCTOPUS_APIKEY, OCTOPUS_PROJECT_ID and OCTOPUS_SERVER configured.
 
-## Important
-When running the deployment for the first time you need to ensure `traefik.httpsredirect=false` for the first deployment. Traefik will generate your SSL certs via Lets Encypt, but as we have SSL redirection on it will redirect the ACME requests and serve an invalid cert. All you need to do is run this app without the SSL redirection and once the certs are generated deploy with it on. Traefik will now renew certs before expiry and Lets Encrypt is happy to have protocol redirection.		
-
-
 ## Things you need to do after cloning the project:
 * Helm Chart Name   
 ./chart/Chart.yaml name should change to your app name    
