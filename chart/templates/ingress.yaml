@@ -14,7 +14,7 @@ spec:
           port: 80
       middlewares:
         - name: {{ .Release.Name }}-web-redirectwww
-    - match: Host(`www.{{ .Values.web.url }}`)
+    - match: Host(`www.{{ .Values.web.url }}`) && !PathPrefix(`/.well-known/acme-challenge/`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-web-svc
