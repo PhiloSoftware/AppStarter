@@ -14,7 +14,14 @@ spec:
           port: 80
       middlewares:
         - name: {{ .Release.Name }}-web-redirectwww
-    - match: Host(`www.{{ .Values.web.url }}`) && !PathPrefix(`/.well-known/acme-challenge/`)
+    - match: Host(`www.{{ .Values.web.url }}`) && PathPrefix(`/.well-known/acme-challenge/`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}-web-svc
+          port: 80
+      middlewares:
+        - name: {{ .Release.Name }}-web-securityheaders
+    - match: Host(`www.{{ .Values.web.url }}`)
       kind: Rule
       services:
         - name: {{ .Release.Name }}-web-svc
@@ -24,10 +31,3 @@ spec:
 {{ if (eq .Values.traefik.httpsredirect true) }}
         - name: {{ .Release.Name }}-web-redirectscheme
 {{ end }}
-    - match: Host(`www.{{ .Values.web.url }}`) && PathPrefix(`/.well-known/acme-challenge/`)
-      kind: Rule
-      services:
-        - name: {{ .Release.Name }}-web-svc
-          port: 80
-      middlewares:
-        - name: {{ .Release.Name }}-web-securityheaders
